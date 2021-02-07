@@ -1,0 +1,110 @@
+8047474500
+
+yum install docker -y 
+
+(Docker client(command related to pull,delete, push image executed via client) 
+and Docker(Demon will take care of pull an img or push an img to container 
+and Start, stoping the container and send response to the client)
+ demon will be installed for background process and both called as Docker engine)
+
+sudo apt-get update
+ $ sudo apt-get install docker-ce docker-ce-cli containerd.io
+
+systemctl start docker
+registryname/imageName:tagName -> Official Image naming convention
+(registryname/username/imageName:tagName) -> naming convention for creating a image and by default registry name vl be dockerhub
+
+if we give only imageName docker will pull only the lastest version
+
+docker search tomcat -> search image
+docker pull tomcat:7 -> Pulled the image
+docker images -> to check images in repo
+docker image ls -> to list images in repo
+docker run --name t1 tomcat:7 -> to run the image and it will create the container
+docker ps -a -> To check the container
+docker rmi ubuntu -> To remove the image
+docker rm -f u1 -> to remove the container
+docker run --name u1 ubuntu -> run and pull the image from docker hub
+docker system prune --all -> It will remove all the images and containers
+docker run -d --name n1 nginx -> to run container in detached mode
+docker run --name c1 -it centos -> to run container in interactive terminal mode
+ctrl+p ctrl+q -> To exit from centos os without stopping
+docker rm -f $(docker ps -aq) -> To delete all container
+docker attach u1 -> To enter into the container
+docker start u1 -> To start the container
+docker stop u1 -> To stop the container
+docker run -itd --name u2 ubuntu -> Running in background(detached mode). We will not enter into the container
+docker run --name n2 -p 9090:80 nginx-> port mapping
+docker port n2 -> to check container port
+docker run -d --name j1 -P jenkins -> -P, Docker will find port automatically which is free
+docker run --name mytomcat -d -p 9090:8080 tomcat -> Proper port mapping
+docker volume create myvolume -> To maintain container files even container is deleted
+docker volume inspect myvolume -> To fetch volume created information
+/var/lib/docker/volumes/myvol/_data -> Volume created location
+docker run --name u1 -it -v myvol:/tmp ubuntu -> use -v for volume command
+docker volume rm myvol -> To remove docker volume
+docker volume ls -> To list the volume
+docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres -> To run the postgres
+docker run --name p1 -d postgres -> install without running as container
+docker run -e MY_ROOT_PASSWORD=root -d --name mydb mysql:5 -> To run mysql
+docker build -t mycentos:git . -> To build a created a image
+docker build -t mynginx:html .
+docker history mynginx:html -> To check build history
+docker run --name n2 -d -P mynginx:html
+docker commit c1 myimage
+
+Pushing Images to Docker
+docker login
+docker tag myimage:latest arunkumars910/myimage:latest //Changing the image name
+docker push arunkumars910/myimage:latest //Pushing to Image to docker hub
+docker run --name lr -d -p 5000:5000 registry //Local registry
+docker pull alpine
+docker tag apline:latest localhost:5000/arun/alpine //Renaming
+docker push localhost:5000/arun/alpine //Pushime in local repo
+docker exec -it lr /bin/sh
+docker rmi alpine localhost:5000/arun/alpine
+pulling from arun/alpine
+
+Linking the container(Docker Composing)
+docker run --name mydb -d -e MYSQL_ROOT_PASSWORD=edureka mariadb
+docker run --name mywp -d -p 8989:80 --link mydb:mysql wordpress
+docker exec -it mydb bash
+mysql -u root -p
+show databases;
+use mysql
+
+validate the yaml file using http://yamllint.com
+docker-compose up -d
+docker-compose down
+
+
+Docker Networ creation
+docker network ls
+docker network create --driver bridge edureka1 
+docker network create --driver bridge edureka2
+docker run --name b1 -itd --network edureka1 busybox
+docker run --name b2 -it --network edureka1 busybox
+docker network connect edureka2 b2
+docker attach b3
+
+Master
+docker swarm init -advertise-addr private-ip-of-mastermachine
+docker node ls
+to run cmd in worker machine -> docker swarm join --token hjhbjhdwbchqbchbcjceh 172.31.35.218:2377
+
+docker serive create --name myng -p 8181:80 --replicas 4 nginx
+docker service ls
+Master -> port -> (*:8181->80/tcp) can access by anyone accross the worker node
+
+docker service rm myng -> To remove the service and replicas also will be deleted accross the swarm
+vim /etc/hostname -> To change the hostname
+
+Scaling up the replica's
+docker service create --name mytom -p 8989:8080 --replicas 3 tomcat
+docker service ps mytom
+docker service scale mytom=5 -> To update replica count
+docker service rm mytom -> to remove the feature
+
+High Availability Scenario
+docker service create --name mywb -p 8282:80 --replicas 4 httpd
+docker service ps mywb

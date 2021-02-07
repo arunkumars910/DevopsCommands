@@ -1,0 +1,35 @@
+yum install java-1.8.0-openjdk-devel
+alternatives --config java
+/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.272.b10-1.amzn2.0.1.x86_64/
+vim /etc/profile
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.272.b10-1.amzn2.0.1.x86_64
+export PATH=$JAVA_HOME/bin:$PATH
+source /etc/profile
+echo $JAVA_HOME
+
+yum install maven
+mvn --version
+export MAVEN_HOME=/usr/share/maven
+
+cat /etc/os-release
+
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+yum install jenkins
+systemctl start jenkins
+systemctl status jenkins
+http://3.139.59.175:8080 -> Jenkin Url
+cat /var/lib/jenkins/secrets/initialAdminPassword
+Password : f4e1ccf915c2418fbd3114e75a4b0645
+
+
+Jenkin Plugins
+Audit Trail
+compiler - to Compile - Goal(compile)
+pmd - code review - Goal(pmd:pmd)
+surefire - Test Resources - Goal(test)
+cobertura - Test Review - Goal(cobertura - format -.xml) 
+Package - packaging - Goal(package)
+Deploy - Deployment - Goal(deploy)
+
+java -jar agent.jar -jnlpUrl http://3.139.59.175:8080/computer/win_slave/slave-agent.jnlp -secret a5c6e6e10021d3c4b24c19df26a5086389b005f828048f7757aee93c54f5942d -workDir "C:\Devops\Jenkindir"

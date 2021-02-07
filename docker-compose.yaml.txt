@@ -1,0 +1,19 @@
+mydb:
+ image: mariadb
+ environment:
+  MYSQL_ROOT_PASSWORD: edureka
+mywp:
+ image: wordpress
+ ports:
+  - 8989:80
+ links:
+  - mydb:mysql
+myphpadmin:
+ image: corbinu/docker-phpmyadmin
+ ports:
+  - 8181:80
+ links:
+  - mydb:mysql
+ environment:
+  MYSQL_USERNAME: root
+  MYSQL_ROOT_PASSWORD: edureka

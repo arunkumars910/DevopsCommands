@@ -1,0 +1,51 @@
+sudo su - --> for root user 
+ssh -i '3192.pem' ec2-user@3.139.59.175
+
+yum install git
+mkdir myproject -> create directory
+cd myproject 
+ls -> list files
+pwd -> current path
+git init -> to initialize git repo
+ll -al
+vim index1.html
+i to insert
+ctrl + D to save
+:wq!
+git status
+git add index1.html
+git commit -a -m "commiting index file to local repo"
+git ls-files
+git add -all(To add all the files)
+git log or git log --oneline -> Provide information about commit
+git config --global user.name "Arun" user.email "arunkumars910@gmail.com"
+git diff index1.html
+git show
+git help
+history
+git rm index.html
+git revert commitid
+touch img2.jpeg
+git reset --hard commitid
+git branch
+git branch b1
+git checkout b1
+cat file
+
+Stashing - To move untracked changes to the temprary cell
+git stash -p
+git stash show@{0}
+git stash pop stash{0}
+git stash apply stash@{0}
+git stash list
+
+
+git rebase master 
+git remote add origin https://github.com/arunkumars910/mynewproject.git
+git remote -v
+git push origin master
+git branch -D b1
+git push origin -delete b1
+git pull origin master
+git fetch origin master
+git clone https://github.com/arunkumars910/mynewproject.git

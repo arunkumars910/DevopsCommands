@@ -1,0 +1,23 @@
+FROM centos
+MAINTAINER arun
+RUN yum update -y
+RUN yum install git -y
+RUN yum install tree -y
+VOLUME /data
+
+FROM ubuntu
+MAINTAINER arun
+RUN apt-get update -y
+RUN apt-get install nginx -y
+COPY index.html /var/www/html/
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+
+
+Deployment with Jenkin pipeline
+/var/lib/jenkins/workspace/package/target/addressbook.war
+vim /etc/sudoers
+
+ENV JAVA_OPTS="-Xms1536m -Xmx1536m -XX:+HeapDumpOnOutOfMemory -XX:HeapDumpPath=/app/"
+ENV GC_OPTS="-Xloggc:/app/address-gc.log -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=2M -XX:+PrintGCDetails -XX:+PrintGCCause -XX+PrintGCCause -XX:+UseGIGC"
+ENV J_DC_OPTS="-XX:+PrintFlagsFinal -XX:+StartAttachListener -XX:NativeMemoryTracking=summary"
